@@ -12,7 +12,7 @@ const RecipeDetails = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/recipe/${id}`);
+        const res = await axios.get(`https://recipeapp-bdyc.onrender.com/recipe/${id}`);
         console.log("DATA:", res.data); 
         setRecipe(res.data.recipe);
       } catch (error) {
@@ -25,7 +25,7 @@ const RecipeDetails = () => {
   // Delete Recipe
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/recipe/${id}`);
+      await axios.delete(`https://recipeapp-bdyc.onrender.com/recipe/${id}`);
       
       navigate("/");
     } catch (error) {
@@ -100,7 +100,7 @@ const RecipeDetails = () => {
     <div className="flex justify-center">
       <div className="w-[420px] h-[420px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-5">
         <img
-          src={`http://localhost:5000/images/${recipe.coverImage}`}
+          src={`https://recipeapp-bdyc.onrender.com/images/${recipe.coverImage}`}
           alt={recipe.title}
           className="w-full h-full object-cover"
         />

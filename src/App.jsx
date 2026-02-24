@@ -9,7 +9,7 @@ import RecipeDetails from './pages/RecipeDetails'
 
 const getAllRecipes=async()=>{
   let allRecipes=[]
-  await axios.get('http://localhost:5000/recipe').then(res=>{
+  await axios.get('https://recipeapp-bdyc.onrender.com/recipe').then(res=>{
     allRecipes=res.data
   })
   return allRecipes

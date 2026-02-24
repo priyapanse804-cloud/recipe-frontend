@@ -18,7 +18,7 @@ const EditRecipe = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/recipe/${id}`
+        `https://recipeapp-bdyc.onrender.com/recipe/${id}`
       );
 
       console.log("Full API Response:", response.data);
@@ -82,7 +82,7 @@ const onHandleSubmit = async (e) => {
 
   try {
     await axios.put(
-      `http://localhost:5000/recipe/${id}`, 
+      `https://recipeapp-bdyc.onrender.com/recipe/${id}`, 
       formData, // <- yahan FormData bhejna hai, plain object nahi
       {
         headers: {
