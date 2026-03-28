@@ -29,7 +29,7 @@ const recipesArray = Array.isArray(recipes)
         setDeleteRecipe(recipes)
     },[recipes])
   const onDelete=async(id)=>{
-     await axios.delete(`https://recipeapp-bdyc.onrender.com/recipe/${id}`)
+     await axios.delete(`https://recipeapp-1-4ajc.onrender.com/recipe/${id}`)
      .then((res)=>console.log(res));
 
     setDeleteRecipe(prev =>
@@ -62,7 +62,7 @@ const recipesArray = Array.isArray(recipes)
            <div className="flex justify-center items-center pt-6">
   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
     <img
-      src={`https://recipeapp-bdyc.onrender.com/images/${item.coverImage}`}
+      src={`https://recipeapp-1-4ajc.onrender.com/images/${item.coverImage}`}
       alt={item.title}
       className="w-full h-full object-cover"
     />
