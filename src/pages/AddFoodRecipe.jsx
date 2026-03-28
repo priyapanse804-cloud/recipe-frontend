@@ -35,7 +35,7 @@ const AddFoodRecipe = () => {
 
     try {
       await axios.post(
-        "https://recipeapp-bdyc.onrender.com/recipe",
+        "https://recipeapp-1-4ajc.onrender.com/recipe",
         formData,
         {
           headers: {
