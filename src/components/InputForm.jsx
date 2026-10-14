@@ -13,7 +13,11 @@ const InputForm = ({setIsOpen}) => {
 
       let endpoint=(isSignUp) ? "signUp" : "login"
 
-      await axios.post(`http://localhost:5000/${endpoint}`,{email,password})
+
+await axios.post(`https://recipeapp-1-4ajc.onrender.com/${endpoint}`, {
+  email,
+  password
+})
       .then((res)=>{
         localStorage.setItem("token",res.data.token)
         localStorage.setItem("user",JSON.stringify(res.data.user))
