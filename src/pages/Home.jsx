@@ -78,5 +78,4 @@ console.log("Loader Data:",data );
     </div>
   );
 };
-
 export default Home;
