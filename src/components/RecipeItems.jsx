@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect,useMemo,useState } from 'react'
 import { Link, useLoaderData, useNavigate } from 'react-router'
 import images from "../assets/images.jpeg"
 import { BsStopwatchFill } from "react-icons/bs";
@@ -10,49 +10,82 @@ const RecipeItems = ({ recipes }) => {
 
   const navigate=useNavigate()
   
-  const allRecipes = useLoaderData();
-  let [deleteRecipe,setDeleteRecipe]=useState([])
-
   let path=window.location.pathname==="/myRecipe"?true:false
-
-  let favItem=JSON.parse(localStorage.getItem("fav"))??[]
-
-  const[isFavRecipe,setIsFavRecipe]=useState(false)
-  console.log(allRecipes);
-
-const recipesArray = Array.isArray(recipes)
+  const allRecipes = useLoaderData();
+  
+ const recipesArray = useMemo(() => {
+  return Array.isArray(recipes)
     ? recipes
     : recipes?.recipe || [];
+}, [recipes]);
+  
+  const [deleteRecipe, setDeleteRecipe] = useState(recipesArray);
+
+ const [favItem, setFavItem] = useState(() => {
+  return JSON.parse(localStorage.getItem("fav")) || [];
+});
 
 
-    useEffect(()=>{
-        setDeleteRecipe(recipes)
-    },[recipes])
-  const onDelete=async(id)=>{
-     await axios.delete(`https://recipeapp-1-4ajc.onrender.com/recipe/${id}`)
-     .then((res)=>console.log(res));
+  console.log(allRecipes);
 
-    setDeleteRecipe(prev =>
-      prev?.filter(recipe => recipe._id !== id)
-    );     
+
+    
+
+ useEffect(() => {
+  if (window.location.pathname === "/favRecipe") {
+    const fav = JSON.parse(localStorage.getItem("fav")) || [];
+    setDeleteRecipe(fav);
+    setFavItem(fav);
+  } else {
+    setDeleteRecipe(recipesArray);
   }
+}, [recipesArray]);
 
+const onDelete = async (id) => {
+  try {
+    await axios.delete(`${import.meta.env.VITE_API_URL}/recipe/${id}`);
 
-  const favRecipe=(item)=>{
+    // Remove from Favourite
+    const currentFav = JSON.parse(localStorage.getItem("fav")) || [];
 
-    let filterItem=favItem.filter(recipe=>recipe._id!==item._id)
-   favItem=favItem.filter(recipe=>recipe._id===item._id).length===0?[...favItem,item]: filterItem
-    localStorage.setItem("fav",JSON.stringify(favItem))
-    setIsFavRecipe(pre=>!pre)
- 
+    const updatedFav = currentFav.filter(
+      (recipe) => String(recipe._id) !== String(id)
+    );
+
+    localStorage.setItem("fav", JSON.stringify(updatedFav));
+    setFavItem(updatedFav);
+
+    // Remove from current page
+    setDeleteRecipe((prev) =>
+      prev.filter((recipe) => String(recipe._id) !== String(id))
+    );
+
+  } catch (error) {
+    console.log("Delete Error:", error.response?.data || error.message);
   }
+};
+
+const favRecipe = (item) => {
+  const currentFav = JSON.parse(localStorage.getItem("fav")) || [];
+
+  const isAlreadyFav = currentFav.some(
+    (recipe) => recipe._id === item._id
+  );
+
+  const updatedFav = isAlreadyFav
+    ? currentFav.filter((recipe) => recipe._id !== item._id)
+    : [...currentFav, item];
+
+  localStorage.setItem("fav", JSON.stringify(updatedFav));
+  setFavItem(updatedFav);
+};
  return (
   <div className="flex justify-center p-8">
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-[60%]">
-      {recipesArray.length === 0 ? (
+      {deleteRecipe.length === 0 ? (
         <p>No recipes found</p>
       ) : (
-        recipesArray.map((item, index) => (
+         deleteRecipe.map((item, index) => (
           <div
             key={index}
             onClick={() => navigate(`/recipeDetails/${item._id}`)}
@@ -62,7 +95,10 @@ const recipesArray = Array.isArray(recipes)
            <div className="flex justify-center items-center pt-6">
   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
     <img
-      src={`https://recipeapp-1-4ajc.onrender.com/images/${item.coverImage}`}
+      src={
+        `${import.meta.env.VITE_API_URL}/images/${item.coverImage}`
+          
+      }
       alt={item.title}
       className="w-full h-full object-cover"
     />
@@ -82,14 +118,17 @@ const recipesArray = Array.isArray(recipes)
                 </div>
 
                 {!path ? (
-                  <FaHeart
-                    onClick={() => favRecipe(item)}
-                    className={`text-lg cursor-pointer ${
-                      favItem.some(res => res._id === item._id)
-                        ? "text-red-500"
-                        : ""
-                    }`}
-                  />
+                 <FaHeart
+  onClick={(e) => {
+    e.stopPropagation();
+    favRecipe(item);
+  }}
+  className={`text-lg cursor-pointer ${
+    favItem.some(recipe => recipe._id === item._id)
+      ? "text-red-500"
+      : ""
+  }`}
+/>
                 ) : (
                   <div className="flex gap-3 text-lg">
                     <Link to={`/editRecipe/${item._id}`}

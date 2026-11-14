@@ -12,7 +12,10 @@ const RecipeDetails = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await axios.get(`https://recipeapp-1-4ajc.onrender.com/recipe/${id}`);
+        const res = await axios.get(
+         `${import.meta.env.VITE_API_URL}/recipe/${id}`
+         
+        );
         console.log("DATA:", res.data); 
         setRecipe(res.data.recipe);
       } catch (error) {
@@ -25,7 +28,11 @@ const RecipeDetails = () => {
   // Delete Recipe
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://recipeapp-1-4ajc.onrender.com/recipe/${id}`);
+      await axios.delete(
+     `${import.meta.env.VITE_API_URL}/recipe/${id}`
+         
+      
+      );
       
       navigate("/");
     } catch (error) {
@@ -100,7 +107,10 @@ const RecipeDetails = () => {
     <div className="flex justify-center">
       <div className="w-[420px] h-[420px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-5">
         <img
-          src={`https://recipeapp-1-4ajc.onrender.com/images/${recipe.coverImage}`}
+          src={
+            `${import.meta.env.VITE_API_URL}/images/${recipe.coverImage}`
+           
+          }
           alt={recipe.title}
           className="w-full h-full object-cover"
         />

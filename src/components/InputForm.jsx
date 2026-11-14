@@ -14,7 +14,11 @@ const InputForm = ({setIsOpen}) => {
       let endpoint=(isSignUp) ? "signUp" : "login"
 
 
-await axios.post(`https://recipeapp-1-4ajc.onrender.com/${endpoint}`, {
+await axios.post(
+`${import.meta.env.VITE_API_URL}/${endpoint}`,
+   
+   
+  {
   email,
   password
 })

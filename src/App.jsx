@@ -9,7 +9,9 @@ import RecipeDetails from './pages/RecipeDetails'
 
 const getAllRecipes=async()=>{
   let allRecipes=[]
-  await axios.get('https://recipeapp-1-4ajc.onrender.com/recipe').then(res=>{
+  await axios.get(
+    `${import.meta.env.VITE_API_URL}/recipe`
+  ).then(res=>{
     allRecipes=res.data
   })
   return allRecipes
@@ -33,9 +35,9 @@ const getMyRecipe = async () => {
 
 };
 
-const getFavRecipe=()=>{
-  return JSON.parse(localStorage.getItem("fav"))
-}
+const getFavRecipe = () => {
+  return JSON.parse(localStorage.getItem("fav")) || [];
+};
 
 const router=createBrowserRouter([
 

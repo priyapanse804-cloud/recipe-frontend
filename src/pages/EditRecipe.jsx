@@ -18,7 +18,8 @@ const EditRecipe = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `https://recipeapp-1-4ajc.onrender.com/recipe/${id}`
+     `   ${import.meta.env.VITE_API_URL}/recipe/${id}`
+         
       );
 
       console.log("Full API Response:", response.data);
@@ -82,7 +83,7 @@ const onHandleSubmit = async (e) => {
 
   try {
     await axios.put(
-      `https://recipeapp-1-4ajc.onrender.com/recipe/${id}`, 
+      `${import.meta.env.VITE_API_URL}/recipe/${id}`, 
       formData, // <- yahan FormData bhejna hai, plain object nahi
       {
         headers: {
@@ -101,7 +102,7 @@ const onHandleSubmit = async (e) => {
   return (
     <div className="min-h-screen flex items-start justify-center px-4 py-10">
     <div className="w-full max-w-xl">
-      <div className="bg-white border border-orange-100 rounded-2xl shadow-sm shadow-orange-100/50 p-6 sm:p-8">
+      <div className="bg-white   rounded-2xl shadow-sm  p-6 sm:p-8">
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Edit Your Recipe
