@@ -26,7 +26,7 @@ const RecipeItems = ({ recipes }) => {
 });
 
 
-  console.log(allRecipes);
+ 
 
 
     
