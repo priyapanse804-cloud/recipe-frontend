@@ -94,7 +94,7 @@ const favRecipe = (item) => {
             {/* Image */}
            <div className="flex justify-center items-center pt-6">
   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
-   {/* <img
+   <img
   src={`${import.meta.env.VITE_API_URL}/images/${item.coverImage}`}
   alt={item.title}
   onError={(e) => {
@@ -102,7 +102,7 @@ const favRecipe = (item) => {
     console.log("Cover Image:", item.coverImage);
   }}
   className="w-full h-full object-cover"
-/> */}
+/>
   </div>
 </div>
 
