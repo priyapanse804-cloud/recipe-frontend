@@ -1,5 +1,5 @@
 import React, { useEffect,useMemo,useState } from 'react'
-import { Link, useLoaderData, useNavigate } from 'react-router'
+import { Link,  useNavigate } from 'react-router'
 import images from "../assets/images.jpeg"
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
@@ -11,7 +11,7 @@ const RecipeItems = ({ recipes }) => {
   const navigate=useNavigate()
   
   let path=window.location.pathname==="/myRecipe"?true:false
-  const allRecipes = useLoaderData();
+  
   
  const recipesArray = useMemo(() => {
   return Array.isArray(recipes)
@@ -94,14 +94,15 @@ const favRecipe = (item) => {
             {/* Image */}
            <div className="flex justify-center items-center pt-6">
   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
-    <img
-      src={
-        `${import.meta.env.VITE_API_URL}/images/${item.coverImage}`
-          
-      }
-      alt={item.title}
-      className="w-full h-full object-cover"
-    />
+   <img
+  src={`${import.meta.env.VITE_API_URL}/images/${item.coverImage}`}
+  alt={item.title}
+  onError={(e) => {
+    console.log("Image URL:", e.currentTarget.src);
+    console.log("Cover Image:", item.coverImage);
+  }}
+  className="w-full h-full object-cover"
+/>
   </div>
 </div>
 
